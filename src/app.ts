@@ -24,6 +24,7 @@ import { geminiRoutes } from './routes/gemini.routes.js';
 import { supportRoutes } from './routes/support.routes.js';
 import { trackRoutes } from './routes/track.routes.js';
 import { env } from './config/env.js';
+import { connectDB } from './config/db.js';
 
 export function createApp(): Express {
   const app = express();
@@ -32,6 +33,15 @@ export function createApp(): Express {
   app.use(helmet());
   app.use(cors({ origin: env.corsOrigins }));
   app.use(express.json({ limit: '100kb' }));
+
+  // Ensures a DB connection before any route runs. No-ops instantly once connected —
+  // needed here because on Vercel this file's default export is invoked directly per
+  // request, with no separate startup step to connect first (unlike src/server.ts,
+  // which connects once before listen()).
+  app.use((req, res, next) => {
+    connectDB().then(() => next(), next);
+  });
+
   app.use('/api/', apiLimiter);
 
   app.get('/api/health', (_req, res) => {
@@ -63,3 +73,10 @@ export function createApp(): Express {
 
   return app;
 }
+
+// Default export: a ready-to-serve Express app instance. Vercel's zero-config Node.js
+// builder picked this file up directly as the deployed function and requires the default
+// export to be a callable server (an Express app satisfies that — it's just a request
+// handler function under the hood). src/server.ts and src/serverless.ts use the named
+// createApp() export instead, for their own bootstrap flows.
+export default createApp();
