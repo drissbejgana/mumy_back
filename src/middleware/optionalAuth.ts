@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import { verifyToken } from '../services/tokenService';
+import { verifyToken } from '../services/tokenService.js';
 
 // Like requireAuth, but never rejects — attaches req.user only if a valid token is present.
 // Used by routes that are public but personalize the response for a logged-in caller.

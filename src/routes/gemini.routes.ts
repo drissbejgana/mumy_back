@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import * as controller from '../controllers/gemini.controller';
-import { asyncHandler } from '../middleware/asyncHandler';
-import { requireAuth } from '../middleware/requireAuth';
-import { requireRole } from '../middleware/requireRole';
+import * as controller from '../controllers/gemini.controller.js';
+import { asyncHandler } from '../middleware/asyncHandler.js';
+import { requireAuth } from '../middleware/requireAuth.js';
+import { requireRole } from '../middleware/requireRole.js';
 
 export const geminiRoutes = Router();
 

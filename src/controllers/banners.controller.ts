@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
-import { AdBanner } from '../models/AdBanner.model';
-import { HttpError } from '../utils/HttpError';
+import { AdBanner } from '../models/AdBanner.model.js';
+import { HttpError } from '../utils/HttpError.js';
 
 export async function list(req: Request, res: Response): Promise<void> {
   // Admins manage the full catalog (including inactive/paused banners); everyone else

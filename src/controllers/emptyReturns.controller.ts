@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 import type { Request, Response } from 'express';
-import { EmptyReturn } from '../models/EmptyReturn.model';
-import { TransportRequest } from '../models/TransportRequest.model';
-import { FinancialRecord } from '../models/FinancialRecord.model';
-import { User } from '../models/User.model';
-import { HttpError } from '../utils/HttpError';
+import { EmptyReturn } from '../models/EmptyReturn.model.js';
+import { TransportRequest } from '../models/TransportRequest.model.js';
+import { FinancialRecord } from '../models/FinancialRecord.model.js';
+import { User } from '../models/User.model.js';
+import { HttpError } from '../utils/HttpError.js';
 
 const COMMISSION_RATE = 0.2;
 

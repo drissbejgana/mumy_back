@@ -1,9 +1,9 @@
 import type { Request, Response } from 'express';
-import { TransportRequest } from '../models/TransportRequest.model';
-import { Driver } from '../models/Driver.model';
-import { Vehicle } from '../models/Vehicle.model';
-import { AdBanner } from '../models/AdBanner.model';
-import { HttpError } from '../utils/HttpError';
+import { TransportRequest } from '../models/TransportRequest.model.js';
+import { Driver } from '../models/Driver.model.js';
+import { Vehicle } from '../models/Vehicle.model.js';
+import { AdBanner } from '../models/AdBanner.model.js';
+import { HttpError } from '../utils/HttpError.js';
 
 // Public, unauthenticated, redacted view for the ?track=<id> page — no client contact
 // info, pricing, or notes are exposed, only what a waiting passenger needs to see.

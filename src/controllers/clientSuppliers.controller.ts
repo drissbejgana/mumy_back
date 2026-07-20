@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import { ClientSupplier } from '../models/ClientSupplier.model';
-import { ensureOwnership } from '../middleware/requireOwnership';
-import { HttpError } from '../utils/HttpError';
+import { ClientSupplier } from '../models/ClientSupplier.model.js';
+import { ensureOwnership } from '../middleware/requireOwnership.js';
+import { HttpError } from '../utils/HttpError.js';
 
 export async function list(req: Request, res: Response): Promise<void> {
   const filter = req.user!.role === 'admin' ? {} : { transporterId: req.user!.sub };

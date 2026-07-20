@@ -1,5 +1,5 @@
 import type { Request } from 'express';
-import { HttpError } from '../utils/HttpError';
+import { HttpError } from '../utils/HttpError.js';
 
 // Throws 403 unless the caller is admin or owns the resource (its transporterId === req.user.id).
 // Call after loading the resource, inside the controller, since ownership is per-document.

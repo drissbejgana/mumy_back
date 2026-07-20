@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import * as authController from '../controllers/auth.controller';
-import { asyncHandler } from '../middleware/asyncHandler';
-import { authLimiter } from '../middleware/rateLimiters';
-import { requireAuth } from '../middleware/requireAuth';
+import * as authController from '../controllers/auth.controller.js';
+import { asyncHandler } from '../middleware/asyncHandler.js';
+import { authLimiter } from '../middleware/rateLimiters.js';
+import { requireAuth } from '../middleware/requireAuth.js';
 
 export const authRoutes = Router();
 

@@ -1,12 +1,12 @@
 import type { Request, Response } from 'express';
-import { TransportRequest } from '../models/TransportRequest.model';
-import { Vehicle } from '../models/Vehicle.model';
-import { Driver } from '../models/Driver.model';
-import { FinancialRecord } from '../models/FinancialRecord.model';
-import { Bid } from '../models/Bid.model';
-import { User } from '../models/User.model';
-import { ensureOwnership } from '../middleware/requireOwnership';
-import { HttpError } from '../utils/HttpError';
+import { TransportRequest } from '../models/TransportRequest.model.js';
+import { Vehicle } from '../models/Vehicle.model.js';
+import { Driver } from '../models/Driver.model.js';
+import { FinancialRecord } from '../models/FinancialRecord.model.js';
+import { Bid } from '../models/Bid.model.js';
+import { User } from '../models/User.model.js';
+import { ensureOwnership } from '../middleware/requireOwnership.js';
+import { HttpError } from '../utils/HttpError.js';
 
 async function scopeFilter(req: Request): Promise<Record<string, unknown>> {
   const role = req.user!.role;

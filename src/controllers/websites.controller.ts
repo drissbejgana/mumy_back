@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import { TransporterWebsite } from '../models/TransporterWebsite.model';
-import { ensureOwnership } from '../middleware/requireOwnership';
-import { HttpError } from '../utils/HttpError';
+import { TransporterWebsite } from '../models/TransporterWebsite.model.js';
+import { ensureOwnership } from '../middleware/requireOwnership.js';
+import { HttpError } from '../utils/HttpError.js';
 
 export async function list(_req: Request, res: Response): Promise<void> {
   const sites = await TransporterWebsite.find();

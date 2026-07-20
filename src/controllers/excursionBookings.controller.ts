@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 import type { Request, Response } from 'express';
-import { ExcursionBooking } from '../models/ExcursionBooking.model';
-import { Excursion } from '../models/Excursion.model';
-import { TransportRequest } from '../models/TransportRequest.model';
-import { HttpError } from '../utils/HttpError';
+import { ExcursionBooking } from '../models/ExcursionBooking.model.js';
+import { Excursion } from '../models/Excursion.model.js';
+import { TransportRequest } from '../models/TransportRequest.model.js';
+import { HttpError } from '../utils/HttpError.js';
 
 export async function list(req: Request, res: Response): Promise<void> {
   const filter = req.user!.role === 'admin' ? {} : { transporterId: req.user!.sub };

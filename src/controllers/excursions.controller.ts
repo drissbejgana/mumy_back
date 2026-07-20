@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import { Excursion } from '../models/Excursion.model';
-import { ensureOwnership } from '../middleware/requireOwnership';
-import { HttpError } from '../utils/HttpError';
+import { Excursion } from '../models/Excursion.model.js';
+import { ensureOwnership } from '../middleware/requireOwnership.js';
+import { HttpError } from '../utils/HttpError.js';
 
 export async function list(req: Request, res: Response): Promise<void> {
   const user = req.user;

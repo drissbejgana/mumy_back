@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import { ChatMessage } from '../models/ChatMessage.model';
-import { User } from '../models/User.model';
-import { HttpError } from '../utils/HttpError';
+import { ChatMessage } from '../models/ChatMessage.model.js';
+import { User } from '../models/User.model.js';
+import { HttpError } from '../utils/HttpError.js';
 
 export async function list(req: Request, res: Response): Promise<void> {
   const threadId = (req.query.threadId as string) || 'public';

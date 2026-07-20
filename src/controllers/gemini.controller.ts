@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import { getGeminiClient, GEMINI_MODEL, logGeminiError } from '../services/geminiClient';
-import { sanitizeString } from '../utils/sanitize';
-import { HttpError } from '../utils/HttpError';
+import { getGeminiClient, GEMINI_MODEL, logGeminiError } from '../services/geminiClient.js';
+import { sanitizeString } from '../utils/sanitize.js';
+import { HttpError } from '../utils/HttpError.js';
 
 function clampCount(value: unknown): number {
   return Math.min(Math.max(0, Number(value || 0)), 10000);

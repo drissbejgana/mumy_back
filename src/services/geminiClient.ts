@@ -1,5 +1,5 @@
 import { GoogleGenAI } from '@google/genai';
-import { env } from '../config/env';
+import { env } from '../config/env.js';
 
 export const GEMINI_MODEL = 'gemini-3.5-flash';
 

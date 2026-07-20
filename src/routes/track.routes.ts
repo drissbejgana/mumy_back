@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import * as controller from '../controllers/track.controller';
-import { asyncHandler } from '../middleware/asyncHandler';
+import * as controller from '../controllers/track.controller.js';
+import { asyncHandler } from '../middleware/asyncHandler.js';
 
 export const trackRoutes = Router();
 

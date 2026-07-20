@@ -1,9 +1,9 @@
 import type { Request, Response } from 'express';
-import { SupportSession } from '../models/SupportSession.model';
-import { User } from '../models/User.model';
-import { getGeminiClient, GEMINI_MODEL, logGeminiError } from '../services/geminiClient';
-import { sanitizeString } from '../utils/sanitize';
-import { HttpError } from '../utils/HttpError';
+import { SupportSession } from '../models/SupportSession.model.js';
+import { User } from '../models/User.model.js';
+import { getGeminiClient, GEMINI_MODEL, logGeminiError } from '../services/geminiClient.js';
+import { sanitizeString } from '../utils/sanitize.js';
+import { HttpError } from '../utils/HttpError.js';
 
 // Resolves which session a request targets: admins (support agents) may reply into
 // any user's session via ?userId=/body.userId; everyone else only ever touches their own.

@@ -1,10 +1,10 @@
 import bcrypt from 'bcryptjs';
 import { OAuth2Client } from 'google-auth-library';
 import type { Request, Response } from 'express';
-import { User } from '../models/User.model';
-import { signToken } from '../services/tokenService';
-import { HttpError } from '../utils/HttpError';
-import { env } from '../config/env';
+import { User } from '../models/User.model.js';
+import { signToken } from '../services/tokenService.js';
+import { HttpError } from '../utils/HttpError.js';
+import { env } from '../config/env.js';
 
 const googleClient = env.googleClientId ? new OAuth2Client(env.googleClientId) : null;
 

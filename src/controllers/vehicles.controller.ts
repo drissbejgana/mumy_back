@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import { Vehicle } from '../models/Vehicle.model';
-import { ensureOwnership } from '../middleware/requireOwnership';
-import { HttpError } from '../utils/HttpError';
+import { Vehicle } from '../models/Vehicle.model.js';
+import { ensureOwnership } from '../middleware/requireOwnership.js';
+import { HttpError } from '../utils/HttpError.js';
 
 export async function list(req: Request, res: Response): Promise<void> {
   const filter = req.user!.role === 'admin' && req.query.transporterId ? { transporterId: req.query.transporterId } : req.user!.role === 'admin' ? {} : { transporterId: req.user!.sub };

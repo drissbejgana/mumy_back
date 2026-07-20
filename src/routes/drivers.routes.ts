@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import * as driversController from '../controllers/drivers.controller';
-import { asyncHandler } from '../middleware/asyncHandler';
-import { requireAuth } from '../middleware/requireAuth';
-import { requireRole } from '../middleware/requireRole';
+import * as driversController from '../controllers/drivers.controller.js';
+import { asyncHandler } from '../middleware/asyncHandler.js';
+import { requireAuth } from '../middleware/requireAuth.js';
+import { requireRole } from '../middleware/requireRole.js';
 
 export const driversRoutes = Router();
 

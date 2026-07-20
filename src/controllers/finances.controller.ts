@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { FinancialRecord } from '../models/FinancialRecord.model';
+import { FinancialRecord } from '../models/FinancialRecord.model.js';
 
 export async function list(req: Request, res: Response): Promise<void> {
   const filter = req.user!.role === 'admin' && req.query.transporterId ? { transporterId: req.query.transporterId } : req.user!.role === 'admin' ? {} : { transporterId: req.user!.sub };

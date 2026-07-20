@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
-import { User } from '../models/User.model';
-import { HttpError } from '../utils/HttpError';
+import { User } from '../models/User.model.js';
+import { HttpError } from '../utils/HttpError.js';
 
 const PUBLIC_FIELDS = ['id', 'name', 'companyName', 'avatarUrl', 'role', 'status', 'isFeatured'] as const;
 

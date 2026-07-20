@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import { getGeminiClient, GEMINI_MODEL, logGeminiError } from '../services/geminiClient';
-import { getCachedTranslation, setCachedTranslation } from '../services/translationCache';
-import { HttpError } from '../utils/HttpError';
+import { getGeminiClient, GEMINI_MODEL, logGeminiError } from '../services/geminiClient.js';
+import { getCachedTranslation, setCachedTranslation } from '../services/translationCache.js';
+import { HttpError } from '../utils/HttpError.js';
 
 const LANGUAGE_NAMES: Record<string, string> = {
   en: 'English',

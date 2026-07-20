@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import * as emptyReturnsController from '../controllers/emptyReturns.controller';
-import { asyncHandler } from '../middleware/asyncHandler';
-import { requireAuth } from '../middleware/requireAuth';
-import { requireRole } from '../middleware/requireRole';
+import * as emptyReturnsController from '../controllers/emptyReturns.controller.js';
+import { asyncHandler } from '../middleware/asyncHandler.js';
+import { requireAuth } from '../middleware/requireAuth.js';
+import { requireRole } from '../middleware/requireRole.js';
 
 export const emptyReturnsRoutes = Router();
 

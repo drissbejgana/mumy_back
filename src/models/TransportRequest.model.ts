@@ -1,5 +1,5 @@
 import { Schema, model, Types } from 'mongoose';
-import { applyToJSON } from '../utils/applyToJSON';
+import { applyToJSON } from '../utils/applyToJSON.js';
 
 const attachmentSchema = new Schema(
   {

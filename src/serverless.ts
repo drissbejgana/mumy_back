@@ -1,6 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'http';
-import { createApp } from './app';
-import { connectDB } from './config/db';
+import { createApp } from './app.js';
+import { connectDB } from './config/db.js';
 
 // Built once per warm serverless instance, reused across invocations.
 const app = createApp();
