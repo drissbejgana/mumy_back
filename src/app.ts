@@ -30,7 +30,10 @@ export function createApp(): Express {
   const app = express();
 
   app.set('trust proxy', 1);
-  app.use(helmet());
+  // crossOriginOpenerPolicy disabled: Google Identity Services' sign-in flow uses a
+  // popup + window.postMessage to hand the credential back to this origin, which
+  // Helmet's default "same-origin" COOP header blocks.
+  app.use(helmet({ crossOriginOpenerPolicy: false }));
   app.use(cors({ origin: env.corsOrigins }));
   app.use(express.json({ limit: '100kb' }));
 
