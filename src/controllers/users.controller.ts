@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import type { Request, Response } from 'express';
 import { User } from '../models/User.model.js';
 import { HttpError } from '../utils/HttpError.js';
@@ -100,11 +101,24 @@ export async function update(req: Request, res: Response): Promise<void> {
 }
 
 export async function create(req: Request, res: Response): Promise<void> {
-  const bcrypt = await import('bcryptjs');
+  // bcryptjs is CommonJS. Under this ESM build `await import('bcryptjs')` resolves to a
+  // namespace whose only usable member is `default`, so the previous dynamic import left
+  // `bcrypt.hash` undefined and every account creation died with a TypeError → 500.
+  // The static default import (same as auth.controller.ts) interops correctly.
   const { password, ...rest } = req.body ?? {};
   if (!password) throw new HttpError(400, 'Mot de passe requis.');
+  if (!rest.email) throw new HttpError(400, 'Email requis.');
+  if (!rest.name) throw new HttpError(400, 'Nom requis.');
+  if (!rest.role) throw new HttpError(400, 'Rôle requis.');
+
+  const email = String(rest.email).trim().toLowerCase();
+  const existing = await User.findOne({ email });
+  if (existing) {
+    throw new HttpError(409, 'Un compte existe déjà avec cette adresse e-mail.');
+  }
+
   const passwordHash = await bcrypt.hash(password, 10);
-  const user = await User.create({ ...rest, email: String(rest.email).toLowerCase(), passwordHash });
+  const user = await User.create({ ...rest, email, passwordHash });
   res.status(201).json(user.toJSON());
 }
 
