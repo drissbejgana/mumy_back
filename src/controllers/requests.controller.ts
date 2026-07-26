@@ -31,15 +31,72 @@ export async function getOne(req: Request, res: Response): Promise<void> {
 }
 
 export async function create(req: Request, res: Response): Promise<void> {
-  const client = await User.findById(req.user!.sub);
-  if (!client) throw new HttpError(404, 'Utilisateur introuvable.');
+  const author = await User.findById(req.user!.sub);
+  if (!author) throw new HttpError(404, 'Utilisateur introuvable.');
+
+  // A transporter creating a request is entering a "direct lead" — a booking they took
+  // off-platform (phone, walk-in, partner agency). It belongs to them from the start and
+  // has no Mumy client account behind it, so clientName comes from the form.
+  if (author.role === 'transporter') {
+    const { clientName, status, ...rest } = req.body ?? {};
+    if (!clientName) throw new HttpError(400, 'Le nom du client est requis pour un lead direct.');
+
+    const request = await TransportRequest.create({
+      ...rest,
+      clientId: null,
+      clientName,
+      transporterId: author.id,
+      status: status ?? 'accepted',
+    });
+    res.status(201).json(request.toJSON());
+    return;
+  }
+
   const request = await TransportRequest.create({
     ...req.body,
-    clientId: client.id,
-    clientName: client.companyName || client.name,
+    clientId: author.id,
+    clientName: author.companyName || author.name,
     status: 'pending',
   });
   res.status(201).json(request.toJSON());
+}
+
+// Fields the mission's operators may edit after the fact. The driver is on the road with
+// the passenger, so they collect the proof of delivery and nothing else; the transporter
+// running the mission also owns its paperwork and pricing.
+const EDITABLE_FIELDS_BY_ROLE: Record<string, readonly string[]> = {
+  driver: ['podSignature'],
+  transporter: ['podSignature', 'attachments', 'notes', 'priceDHS'],
+  admin: ['podSignature', 'attachments', 'notes', 'priceDHS'],
+};
+
+export async function updateDetails(req: Request, res: Response): Promise<void> {
+  const request = await TransportRequest.findById(req.params.id);
+  if (!request) throw new HttpError(404, 'Demande introuvable.');
+
+  if (req.user!.role === 'transporter') {
+    ensureOwnership(req, request.transporterId);
+  } else if (req.user!.role === 'driver') {
+    const driver = await Driver.findOne({ linkedUserId: req.user!.sub });
+    if (!driver || request.assignedDriverId?.toString() !== driver.id) {
+      throw new HttpError(403, "Cette mission ne vous est pas assignée.");
+    }
+  } else if (req.user!.role !== 'admin') {
+    throw new HttpError(403, "Vous n'avez pas les droits pour cette action.");
+  }
+
+  const allowed = EDITABLE_FIELDS_BY_ROLE[req.user!.role] ?? [];
+  const updates = Object.fromEntries(
+    Object.entries(req.body ?? {}).filter(([key]) => allowed.includes(key))
+  );
+  if (Object.keys(updates).length === 0) {
+    throw new HttpError(400, 'Aucun champ modifiable fourni.');
+  }
+
+  Object.assign(request, updates);
+  await request.save();
+
+  res.json(request.toJSON());
 }
 
 export async function assignDriver(req: Request, res: Response): Promise<void> {

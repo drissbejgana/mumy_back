@@ -10,6 +10,7 @@ driversRoutes.use(requireAuth);
 
 driversRoutes.get('/', requireRole('transporter', 'admin'), asyncHandler(driversController.list));
 driversRoutes.get('/me', requireRole('driver'), asyncHandler(driversController.me));
+driversRoutes.patch('/me', requireRole('driver'), asyncHandler(driversController.updateMe));
 driversRoutes.post('/', requireRole('transporter'), asyncHandler(driversController.create));
 driversRoutes.patch('/:id', requireRole('transporter', 'admin'), asyncHandler(driversController.update));
 driversRoutes.delete('/:id', requireRole('transporter', 'admin'), asyncHandler(driversController.remove));

@@ -23,6 +23,8 @@ import { translateRoutes } from './routes/translate.routes.js';
 import { geminiRoutes } from './routes/gemini.routes.js';
 import { supportRoutes } from './routes/support.routes.js';
 import { trackRoutes } from './routes/track.routes.js';
+import { vmsLiaisonsRoutes } from './routes/vmsLiaisons.routes.js';
+import { businessDocumentsRoutes } from './routes/businessDocuments.routes.js';
 import { env } from './config/env.js';
 import { connectDB } from './config/db.js';
 
@@ -71,6 +73,8 @@ export function createApp(): Express {
   app.use('/api/gemini', geminiRoutes);
   app.use('/api/support', supportRoutes);
   app.use('/api/track', trackRoutes);
+  app.use('/api/vms-liaisons', vmsLiaisonsRoutes);
+  app.use('/api/business-documents', businessDocumentsRoutes);
 
   app.use(errorHandler);
 

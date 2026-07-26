@@ -42,6 +42,11 @@ const userSchema = new Schema(
     kycPatenteUrl: String,
     kycPatenteStatus: { type: String, enum: ['missing', 'pending', 'verified', 'rejected'] },
     kycRejectReason: String,
+    // Payout details, maintained by an admin from the FinTech console. Kept on the user
+    // rather than a separate collection: one transporter has exactly one payout account.
+    bankName: String,
+    rib: String,
+    bankKycStatus: { type: String, enum: ['pending', 'verified', 'rejected'], default: 'pending' },
     errorCount: { type: Number, default: 0 },
     riskErrors: [riskErrorSchema],
     lastLoginAt: Date,

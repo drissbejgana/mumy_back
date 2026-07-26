@@ -52,6 +52,36 @@ const SELF_EDITABLE_FIELDS = [
   'kycPatenteUrl',
 ];
 
+// Uploading a KYC document is a self-service action, so the owner must be able to move the
+// matching status out of 'missing'/'rejected'. They may only ever set it to 'pending' —
+// promoting a document to 'verified' stays an admin-only decision (see verify() below).
+const SELF_SETTABLE_KYC_STATUSES = [
+  'kycLicenceStatus',
+  'kycRcStatus',
+  'kycInsuranceStatus',
+  'kycPatenteStatus',
+];
+
+function selfUpdates(body: Record<string, unknown>, currentStatus: string | undefined): Record<string, unknown> {
+  const updates = Object.fromEntries(
+    Object.entries(body ?? {}).filter(([key]) => SELF_EDITABLE_FIELDS.includes(key))
+  );
+
+  for (const field of SELF_SETTABLE_KYC_STATUSES) {
+    if (body?.[field] !== undefined) {
+      updates[field] = 'pending';
+    }
+  }
+
+  // Re-submitting a document sends an already-verified account back through moderation.
+  // A suspended account stays suspended — only an admin lifts that.
+  if (body?.status === 'pending' && currentStatus === 'verified') {
+    updates.status = 'pending';
+  }
+
+  return updates;
+}
+
 export async function update(req: Request, res: Response): Promise<void> {
   const isSelf = req.user!.sub === req.params.id;
   const isAdmin = req.user!.role === 'admin';
@@ -59,9 +89,10 @@ export async function update(req: Request, res: Response): Promise<void> {
     throw new HttpError(403, "Vous n'avez pas accès à ce profil.");
   }
 
-  const updates = isAdmin
-    ? req.body
-    : Object.fromEntries(Object.entries(req.body ?? {}).filter(([key]) => SELF_EDITABLE_FIELDS.includes(key)));
+  const existing = await User.findById(req.params.id);
+  if (!existing) throw new HttpError(404, 'Utilisateur introuvable.');
+
+  const updates = isAdmin ? req.body : selfUpdates(req.body, existing.status);
 
   const user = await User.findByIdAndUpdate(req.params.id, updates, { new: true, runValidators: true });
   if (!user) throw new HttpError(404, 'Utilisateur introuvable.');

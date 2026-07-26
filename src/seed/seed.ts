@@ -17,6 +17,8 @@ import { TransporterWebsite } from '../models/TransporterWebsite.model.js';
 import { ExcursionBooking } from '../models/ExcursionBooking.model.js';
 import { ClientSupplier } from '../models/ClientSupplier.model.js';
 import { SupportSession } from '../models/SupportSession.model.js';
+import { VmsLiaison } from '../models/VmsLiaison.model.js';
+import { BusinessDocument } from '../models/BusinessDocument.model.js';
 import * as seedData from './seedData.js';
 
 const idMap = new Map<string, string>();
@@ -41,6 +43,8 @@ async function clearAll() {
     ExcursionBooking.deleteMany({}),
     ClientSupplier.deleteMany({}),
     SupportSession.deleteMany({}),
+    VmsLiaison.deleteMany({}),
+    BusinessDocument.deleteMany({}),
   ]);
 }
 
